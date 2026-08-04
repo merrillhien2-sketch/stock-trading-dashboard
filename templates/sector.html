@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}板块详情 - 交易决策仪表盘{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-3 py-3">
+    <div class="card-custom mb-3">
+        <div class="card-title-bar">
+            <span class="card-title-text">
+                <i class="bi bi-bar-chart-line text-primary me-2"></i>板块详情
+            </span>
+        </div>
+        <div class="card-body text-center py-5">
+            <i class="bi bi-info-circle text-muted" style="font-size:3rem;"></i>
+            <p class="text-muted mt-3 mb-4">该板块的详细资金流向数据请返回板块列表页查看。</p>
+            <a href="/sectors" class="btn btn-primary">
+                <i class="bi bi-arrow-left me-1"></i>返回板块列表
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

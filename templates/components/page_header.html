@@ -1,0 +1,18 @@
+{#
+  页面标题栏公共组件
+  用法: {% from "components/page_header.html" import render as page_header %}
+        {{ page_header("页面标题", subtitle="副标题", update_id="updateTime") }}
+  参数:
+    title      - 页面主标题
+    subtitle   - 可选，副标题文字
+    update_id  - 可选，更新时间的DOM id，默认 "update-time"
+    icon       - 可选，Bootstrap Icons class，如 "bi-graph-up"
+#}
+{% macro render(title, subtitle='', update_id='update-time', icon='') %}
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+    <h4 class="mb-0">
+        {% if icon %}<i class="{{ icon }} text-primary me-2"></i>{% endif %}{{ title }}{% if subtitle %} <small class="text-muted ms-2">{{ subtitle }}</small>{% endif %}
+    </h4>
+    <div class="text-muted" id="{{ update_id }}" style="font-size:12px;">--</div>
+</div>
+{% endmacro %}

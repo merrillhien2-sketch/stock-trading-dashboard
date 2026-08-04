@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}美股K线分析{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-3 py-3">
+
+    <!-- 头部标题 + 实时行情 -->
+    <div class="card-custom mb-3">
+        <div class="card-title-bar d-flex align-items-center flex-wrap gap-2">
+            <span class="card-title-text">美股K线分析</span>
+            <div class="d-inline-flex align-items-center gap-3 ms-2" id="indexInfo">
+                <span id="indexName" class="fw-bold" style="font-size:1.05rem;color:#e6e6e6;">--</span>
+                <span id="indexPrice" class="fw-bold" style="font-size:1.15rem;color:#e6e6e6;">--</span>
+                <span id="indexChange" class="fw-bold" style="font-size:1rem;">--</span>
+                <span id="indexChangePct" style="font-size:0.95rem;">--</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- 指数切换 + 周期切换 -->
+    <div class="card-custom mb-3">
+        <div class="card-body py-2 d-flex align-items-center flex-wrap gap-2">
+            <div class="btn-group-custom" id="indexSwitcher">
+                <button class="btn-item index-btn active" data-secid="100.DJIA">道琼斯</button>
+                <button class="btn-item index-btn" data-secid="100.SPX">标普500</button>
+                <button class="btn-item index-btn" data-secid="100.NDAQ">纳斯达克</button>
+            </div>
+            <span class="text-muted mx-2" style="color:#555 !important;">|</span>
+            <div class="btn-group-custom" id="periodSwitcher">
+                <button class="btn-item period-btn active" data-klt="101">日K</button>
+                <button class="btn-item period-btn" data-klt="102">周K</button>
+                <button class="btn-item period-btn" data-klt="103">月K</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- K线图 -->
+    <div class="card-custom mb-3">
+        <div class="card-title-bar">
+            <span class="card-title-text">K线走势</span>
+        </div>
+        <div class="card-body p-2">
+            <div id="klineChart" class="chart-container-lg"></div>
+        </div>
+    </div>
+
+    <!-- 资金流向 -->
+    <div class="card-custom mb-3">
+        <div class="card-title-bar">
+            <span class="card-title-text">资金流向</span>
+        </div>
+        <div class="card-body p-2">
+            <div id="fundFlowChart" class="chart-container"></div>
+        </div>
+    </div>
+
+    <!-- 美股热门列表 -->
+    <div class="card-custom mb-3">
+        <div class="card-title-bar">
+            <span class="card-title-text">美股热门</span>
+        </div>
+        <div class="card-body p-0">
+            <table class="table-custom mb-0">
+                <thead>
+                    <tr>
+                        <th style="width:30%;">名称</th>
+                        <th style="width:25%;">代码</th>
+                        <th style="width:20%;">现价</th>
+                        <th style="width:25%;">涨跌幅</th>
+                    </tr>
+                </thead>
+                <tbody id="hotStockTable">
+                    <tr><td colspan="4" class="text-center text-muted py-3">加载中...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/us_stock.js"></script>
+{% endblock %}

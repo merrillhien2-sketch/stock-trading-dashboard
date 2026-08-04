@@ -1,0 +1,22 @@
+{#
+  实时资金流向面板公共组件
+  用法: {% from "components/realtime_flow_panel.html" import render as realtime_flow_panel %}
+        {{ realtime_flow_panel() }}
+  参数:
+    panel_id   - 可选，面板内容DOM id，默认 "realtimeFlowPanel"
+    time_id    - 可选，更新时间DOM id，默认 "realtimeFlowTime"
+    title      - 可选，卡片标题，默认 "实时资金流向"
+    icon       - 可选，Bootstrap Icons class，默认 "bi-cash-stack"
+    mb         - 可选，是否添加mb-3间距class，默认 False
+#}
+{% macro render(panel_id='realtimeFlowPanel', time_id='realtimeFlowTime', title='实时资金流向', icon='bi-cash-stack', mb=false) %}
+<div class="card-custom{% if mb %} mb-3{% endif %}">
+    <div class="card-title-bar">
+        <span class="card-title-text"><i class="{{ icon }}"></i>{{ title }}</span>
+        <span class="text-muted text-sm" id="{{ time_id }}">--</span>
+    </div>
+    <div id="{{ panel_id }}">
+        <div class="loading-spinner"><div class="spinner-border spinner-border-sm"></div></div>
+    </div>
+</div>
+{% endmacro %}

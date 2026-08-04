@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% from "components/page_header.html" import render as page_header %}
+{% from "components/index_switcher.html" import render as index_switcher %}
+{% from "components/klt_switcher.html" import render as klt_switcher %}
+{% from "components/kline_card.html" import render as kline_card %}
+{% from "components/fundflow_card.html" import render as fundflow_card %}
+{% from "components/realtime_flow_panel.html" import render as realtime_flow_panel %}
+
+{% block title %}创业板K线分析 - 交易决策仪表盘{% endblock %}
+
+{% block content %}
+<!-- 页面标题区域 + 指数实时数据 -->
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+    <h4 class="mb-0">
+        <i class="bi bi-graph-up text-primary me-2"></i>创业板K线分析
+    </h4>
+    <!-- 指数实时数据条 -->
+    <div class="d-flex align-items-center flex-wrap gap-2">
+        <span class="text-muted text-sm">指数实时：</span>
+        <span class="fw-600" id="idxName">--</span>
+        <span class="fw-600 text-flat" id="idxPrice" style="font-size:16px;font-variant-numeric:tabular-nums;">--</span>
+        <span class="text-flat" id="idxChange" style="font-variant-numeric:tabular-nums;">--</span>
+        <span class="text-muted text-sm">成交额：<span id="idxAmount">--</span></span>
+        <span class="text-muted text-sm">|</span>
+        <span class="text-muted text-sm">更新：<span id="idxUpdateTime">--</span></span>
+    </div>
+</div>
+
+<!-- 指数切换 + K线周期切换 -->
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+    {{ index_switcher(index_items) }}
+    {{ klt_switcher() }}
+</div>
+
+<!-- 主K线图区域 -->
+{{ kline_card(title_id="klineTitle", mb=false) }}
+
+<!-- 资金流向图表 + 实时资金流向面板 -->
+<div class="row g-3 mt-1">
+    <!-- 左侧：资金流向柱状图 -->
+    <div class="col-12 col-lg-8">
+        {{ fundflow_card(title_id="fundFlowTitle", mb=false) }}
+    </div>
+    <!-- 右侧：实时资金流向面板 -->
+    <div class="col-12 col-lg-4">
+        {{ realtime_flow_panel() }}
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/kline.js"></script>
+{% endblock %}

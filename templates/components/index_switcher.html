@@ -1,0 +1,23 @@
+{#
+  指数切换按钮组公共组件
+  用法: {% from "components/index_switcher.html" import render as index_switcher %}
+        {{ index_switcher(items) }}
+  参数:
+    items       - 指数按钮列表，每项含 {name, secid} 字段
+    switcher_id - 可选，容器DOM id，默认 "indexSwitcher"
+    label       - 可选，标签文字，默认 "选择指数："
+#}
+{% macro render(items, switcher_id='indexSwitcher', label='选择指数：') %}
+<div class="d-flex align-items-center gap-2">
+    <span class="text-muted text-sm">{{ label }}</span>
+    <div class="btn-group-custom" id="{{ switcher_id }}">
+        {% for item in items %}
+        <button class="btn-item{% if loop.first %} active{% endif %}"
+                data-secid="{{ item.secid }}"
+                onclick="switchIndex(this, '{{ item.secid }}')">
+            {{ item.name }}
+        </button>
+        {% endfor %}
+    </div>
+</div>
+{% endmacro %}

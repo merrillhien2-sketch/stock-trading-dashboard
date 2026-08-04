@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}板块资金流向分析{% endblock %}
+
+{% block content %}
+<div class="sectors-page">
+    <!-- 页面标题 -->
+    <div class="page-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="page-title mb-0">
+                <i class="bi bi-pie-chart me-2"></i>板块资金流向分析
+            </h4>
+            <span class="text-muted" style="font-size:13px;" id="updateTime">--</span>
+        </div>
+    </div>
+
+    <!-- 板块分类切换 -->
+    <div class="card-custom mb-3">
+        <div class="card-body py-3">
+            <div class="btn-group-custom" id="sectorTypeTabs">
+                <button class="btn-item active" data-type="ALL_BK">
+                    <i class="bi bi-building me-1"></i>行业板块
+                </button>
+                <button class="btn-item" data-type="GN_BK">
+                    <i class="bi bi-lightbulb me-1"></i>概念板块
+                </button>
+                <button class="btn-item" data-type="DY_BK">
+                    <i class="bi bi-geo-alt me-1"></i>地域板块
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 统计卡片行 -->
+    <div class="row g-3 mb-3">
+        <div class="col-md-3 col-6">
+            <div class="stat-mini-card">
+                <div class="stat-label">板块总数</div>
+                <div class="stat-value" id="totalCount">--</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-mini-card">
+                <div class="stat-label">上涨板块</div>
+                <div class="stat-value text-up" id="upCount">--</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-mini-card">
+                <div class="stat-label">下跌板块</div>
+                <div class="stat-value text-down" id="downCount">--</div>
+            </div>
+        </div>
+        <div class="col-md-3 col-6">
+            <div class="stat-mini-card">
+                <div class="stat-label">主力净流入合计</div>
+                <div class="stat-value" id="totalNetInflow" style="color:var(--accent-color);">--</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 图表行 -->
+    <div class="row g-3 mb-3">
+        <div class="col-lg-7">
+            <div class="card-custom h-100">
+                <div class="card-title-bar">
+                    <span class="card-title-text">
+                        <i class="bi bi-bar-chart me-1"></i>主力净流入 TOP10
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" id="barChart" style="height:350px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-5">
+            <div class="card-custom h-100">
+                <div class="card-title-bar">
+                    <span class="card-title-text">
+                        <i class="bi bi-pie-chart me-1"></i>资金流向分布
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" id="pieChart" style="height:350px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 排行榜表格 -->
+    <div class="card-custom">
+        <div class="card-title-bar">
+            <span class="card-title-text">
+                <i class="bi bi-list-ul me-1"></i>板块资金排行榜
+            </span>
+            <div class="d-flex align-items-center gap-2">
+                <div class="input-group input-group-sm" style="width:200px;">
+                    <span class="input-group-text bg-transparent border-secondary text-muted" style="font-size:12px;">
+                        <i class="bi bi-search"></i>
+                    </span>
+                    <input type="text" class="form-control form-control-sm bg-transparent border-secondary text-light" 
+                           placeholder="搜索板块..." id="searchInput" style="font-size:12px;">
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive" style="max-height:520px; overflow-y:auto;">
+                <table class="table-custom" id="sectorTable">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width:50px;">#</th>
+                            <th>板块名称</th>
+                            <th class="text-end">现价</th>
+                            <th class="text-end">涨跌幅</th>
+                            <th class="text-end">主力净流入</th>
+                            <th class="text-end">主力净流入占比</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sectorTableBody">
+                        <tr>
+                            <td colspan="6" class="text-center text-muted py-4">
+                                <span class="spinner-border spinner-border-sm me-2" role="status"></span>加载中...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/sectors.js"></script>
+{% endblock %}

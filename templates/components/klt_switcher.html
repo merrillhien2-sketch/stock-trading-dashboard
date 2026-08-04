@@ -1,0 +1,26 @@
+{#
+  K线周期切换按钮组（日K/周K/月K）公共组件
+  用法: {% from "components/klt_switcher.html" import render as klt_switcher %}
+        {{ klt_switcher() }}
+  参数:
+    switcher_id  - 可选，容器DOM id，默认 "kltSwitcher"
+    label        - 可选，标签文字，默认 "K线周期："
+    klt_values   - 可选，K线周期值列表，默认 [101, 102, 103]
+    klt_labels   - 可选，按钮文字列表，默认 ["日K", "周K", "月K"]
+#}
+{% macro render(switcher_id='kltSwitcher', label='K线周期：', klt_values=None, klt_labels=None) %}
+{% set _klt_values = klt_values or [101, 102, 103] %}
+{% set _klt_labels = klt_labels or ['日K', '周K', '月K'] %}
+<div class="d-flex align-items-center gap-2">
+    <span class="text-muted text-sm">{{ label }}</span>
+    <div class="btn-group-custom" id="{{ switcher_id }}">
+        {% for i in range(_klt_values | length) %}
+        <button class="btn-item{% if loop.first %} active{% endif %}"
+                data-klt="{{ _klt_values[i] }}"
+                onclick="switchKlt(this, {{ _klt_values[i] }})">
+            {{ _klt_labels[i] }}
+        </button>
+        {% endfor %}
+    </div>
+</div>
+{% endmacro %}

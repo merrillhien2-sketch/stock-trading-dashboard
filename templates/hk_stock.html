@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% from "components/index_switcher.html" import render as index_switcher %}
+{% from "components/kline_card.html" import render as kline_card %}
+{% from "components/fundflow_card.html" import render as fundflow_card %}
+
+{% block title %}港股资金走势分析 - 交易决策仪表盘{% endblock %}
+
+{% block content %}
+<!-- 页面标题 + 恒生指数实时数据 -->
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+    <div class="d-flex align-items-center flex-wrap gap-2">
+        <h4 class="mb-0">
+            <i class="bi bi-currency-exchange text-primary me-2"></i>港股资金走势分析
+        </h4>
+        <div class="d-flex align-items-center ms-2" id="indexRealtimeBadge">
+            <span class="text-muted text-sm" id="rtIndexName">恒生指数</span>
+            <span class="ms-2 fw-600 text-flat" id="rtIndexPrice">--</span>
+            <span class="ms-2 text-flat text-sm" id="rtIndexChange">--</span>
+        </div>
+    </div>
+    <span class="text-muted text-sm">
+        <i class="bi bi-clock"></i> 数据更新: <span id="updateTime">--</span>
+    </span>
+</div>
+
+<!-- 指数切换 + 当日资金流向汇总面板 -->
+<div class="card-custom mb-3">
+    <div class="card-title-bar">
+        <span class="card-title-text">
+            <i class="bi bi-arrow-left-right"></i>指数切换 / 当日资金流向汇总
+        </span>
+        <div class="d-flex align-items-center">
+            <span class="text-muted text-sm me-2">数据日期: <span id="rtFlowDate">--</span></span>
+            <div class="btn-group-custom" id="indexSwitcher">
+                {% for item in index_items %}
+                <button class="btn-item{% if loop.first %} active{% endif %}" onclick="switchIndex(this, '{{ item.secid }}', '{{ item.name }}')">{{ item.name }}</button>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-wrap" style="gap:8px;">
+        <div class="stat-mini-card" style="flex:1 1 18%; min-width:130px;">
+            <div class="stat-value text-flat" id="rtMainNet">--</div>
+            <div class="stat-label">主力净流入</div>
+        </div>
+        <div class="stat-mini-card" style="flex:1 1 18%; min-width:130px;">
+            <div class="stat-value text-flat" id="rtSuperLarge">--</div>
+            <div class="stat-label">超大单净流入</div>
+        </div>
+        <div class="stat-mini-card" style="flex:1 1 18%; min-width:130px;">
+            <div class="stat-value text-flat" id="rtLarge">--</div>
+            <div class="stat-label">大单净流入</div>
+        </div>
+        <div class="stat-mini-card" style="flex:1 1 18%; min-width:130px;">
+            <div class="stat-value text-flat" id="rtMedium">--</div>
+            <div class="stat-label">中单净流入</div>
+        </div>
+        <div class="stat-mini-card" style="flex:1 1 18%; min-width:130px;">
+            <div class="stat-value text-flat" id="rtSmall">--</div>
+            <div class="stat-label">小单净流入</div>
+        </div>
+    </div>
+</div>
+
+<!-- K线图区域 -->
+{{ kline_card(title="K线走势", icon="bi-graph-up-arrow", extra="日K · MA5 / MA10 / MA20 · 可缩放", height="500px") }}
+
+<!-- 资金流向趋势图 -->
+{{ fundflow_card(title="资金流向趋势（近30日）", icon="bi-water", extra="主力 / 超大单 / 大单（红正绿负）") }}
+
+<!-- 港股热门资金流向表格 -->
+<div class="card-custom mb-3">
+    <div class="card-title-bar">
+        <span class="card-title-text">
+            <i class="bi bi-table"></i>港股热门资金流向
+        </span>
+        <span class="text-muted text-sm">按主力净流入排序</span>
+    </div>
+    <div class="table-responsive">
+        <table class="table-custom">
+            <thead>
+                <tr>
+                    <th>名称</th>
+                    <th>代码</th>
+                    <th>现价</th>
+                    <th>涨跌幅</th>
+                    <th>主力净流入</th>
+                    <th>主力净流入占比</th>
+                    <th>成交额</th>
+                </tr>
+            </thead>
+            <tbody id="hkStocksBody">
+                <tr>
+                    <td colspan="7" class="text-center text-muted">加载中...</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/fundflow.js"></script>
+{% endblock %}

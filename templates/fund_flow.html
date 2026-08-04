@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+
+{% block title %}资金流向综合分析{% endblock %}
+
+{% block content %}
+<div class="fundflow-page">
+    <!-- 页面标题 -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4 class="m-0" style="color: #e0e0e0; font-weight: 600;">资金流向综合分析</h4>
+        <small id="updateTime" style="color: #8b949e;">--</small>
+    </div>
+
+    <!-- 指数切换 -->
+    <div class="card-custom mb-3">
+        <div class="card-body py-2">
+            <div class="btn-group-custom" id="indexSwitcher">
+                {% for item in index_items %}
+                <button class="btn-item{% if item.name == '创业板' %} active{% endif %}" data-secid="{{ item.secid }}">{{ item.name }}</button>
+                {% endfor %}
+            </div>
+            <span id="indexName" style="color: #8b949e; font-size: 13px; margin-left: 12px;"></span>
+        </div>
+    </div>
+
+    <!-- 实时资金流向面板 -->
+    <div class="card-custom mb-3">
+        <div class="card-title-bar">
+            <span class="card-title-text">实时资金流向</span>
+        </div>
+        <div class="card-body">
+            <div class="row g-2">
+                <div class="col-4 col-md-2">
+                    <div class="stat-mini-card">
+                        <div class="stat-label">主力净流入</div>
+                        <div class="stat-value" id="mainNet">--</div>
+                        <div class="stat-pct" id="mainPct">--</div>
+                    </div>
+                </div>
+                <div class="col-4 col-md-2">
+                    <div class="stat-mini-card">
+                        <div class="stat-label">超大单净流入</div>
+                        <div class="stat-value" id="superLargeNet">--</div>
+                        <div class="stat-pct" id="superLargePct">--</div>
+                    </div>
+                </div>
+                <div class="col-4 col-md-2">
+                    <div class="stat-mini-card">
+                        <div class="stat-label">大单净流入</div>
+                        <div class="stat-value" id="largeNet">--</div>
+                        <div class="stat-pct" id="largePct">--</div>
+                    </div>
+                </div>
+                <div class="col-4 col-md-2">
+                    <div class="stat-mini-card">
+                        <div class="stat-label">中单净流入</div>
+                        <div class="stat-value" id="mediumNet">--</div>
+                        <div class="stat-pct" id="mediumPct">--</div>
+                    </div>
+                </div>
+                <div class="col-4 col-md-2">
+                    <div class="stat-mini-card">
+                        <div class="stat-label">小单净流入</div>
+                        <div class="stat-value" id="smallNet">--</div>
+                        <div class="stat-pct" id="smallPct">--</div>
+                    </div>
+                </div>
+                <div class="col-4 col-md-2">
+                    <div class="stat-mini-card">
+                        <div class="stat-label">主力净占比</div>
+                        <div class="stat-value" id="mainNetPct">--</div>
+                        <div class="stat-pct" id="mainFlowPct">主力资金</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 图表区域 -->
+    <div class="row mb-3">
+        <div class="col-12 col-lg-8 mb-3 mb-lg-0">
+            <div class="card-custom">
+                <div class="card-title-bar">
+                    <span class="card-title-text">资金流向趋势（60日）</span>
+                    <div class="d-flex align-items-center gap-3" style="font-size: 12px; color: #8b949e;">
+                        <span><span style="display:inline-block;width:12px;height:3px;background:#ff6b6b;vertical-align:middle;margin-right:4px;border-radius:2px;"></span>主力净流入</span>
+                        <span><span style="display:inline-block;width:12px;height:2px;background:#ffd93d;vertical-align:middle;margin-right:4px;border-radius:1px;border-top:1px dashed #ffd93d;"></span>超大单</span>
+                        <span><span style="display:inline-block;width:12px;height:2px;background:#6bcb77;vertical-align:middle;margin-right:4px;border-radius:1px;border-top:1px dashed #6bcb77;"></span>大单</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container-lg" id="trendChart"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4">
+            <div class="card-custom">
+                <div class="card-title-bar">
+                    <span class="card-title-text">资金流向结构</span>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container" id="structureChart"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 板块资金排行 -->
+    <div class="card-custom">
+        <div class="card-title-bar">
+            <span class="card-title-text">板块资金排行</span>
+        </div>
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table-custom mb-0" id="sectorTable">
+                    <thead>
+                        <tr>
+                            <th style="width:50px;">#</th>
+                            <th>板块名称</th>
+                            <th style="width:130px;">主力净流入</th>
+                            <th style="width:100px;">主力净占比</th>
+                            <th style="width:90px;">涨跌幅</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sectorTableBody">
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-3">加载中...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/fundflow_analysis.js"></script>
+{% endblock %}

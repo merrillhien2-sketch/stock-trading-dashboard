@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% from "components/page_header.html" import render as page_header %}
+{% from "components/index_switcher.html" import render as index_switcher %}
+{% from "components/klt_switcher.html" import render as klt_switcher %}
+{% from "components/kline_card.html" import render as kline_card %}
+{% from "components/fundflow_card.html" import render as fundflow_card %}
+{% from "components/realtime_flow_panel.html" import render as realtime_flow_panel %}
+
+{% block title %}A股大盘分析 - 交易决策仪表盘{% endblock %}
+
+{% block content %}
+<!-- 页面标题区域 + 更新时间 -->
+{{ page_header("A股大盘分析", icon="bi-graph-up", update_id="updateTime") }}
+
+<!-- 指数选择 + K线周期选择 -->
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+    {{ index_switcher(index_items) }}
+    {{ klt_switcher() }}
+</div>
+
+<!-- K线图表区域 -->
+{{ kline_card(title_id="klineTitle") }}
+
+<!-- 资金流向图表区域 -->
+{{ fundflow_card(title_id="fundFlowTitle") }}
+
+<!-- 实时资金流向面板 -->
+{{ realtime_flow_panel() }}
+{% endblock %}
+
+{% block extra_js %}
+<script src="/static/js/a_stock.js"></script>
+{% endblock %}
